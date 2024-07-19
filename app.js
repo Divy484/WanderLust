@@ -20,7 +20,7 @@ main().then(() => {
 });
 
 async function main(){
-    mongoose.connect("mongodb://127.0.0.1:27017/divy");
+    mongoose.connect("mongodb://127.0.0.1/divy");
 }
 
 app.get("/", (req, res) => {
