@@ -20,7 +20,11 @@ main().then(() => {
 });
 
 async function main(){
-    mongoose.connect("mongodb://localhost:27017/divy");
+    mongoose.connect('mongodb://localhost/divy',{
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    family: 4,
+});
 }
 
 app.get("/", (req, res) => {
