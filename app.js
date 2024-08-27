@@ -18,6 +18,7 @@ const User = require("./models/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const Listing = require("./models/listing");
 
 const dbURL = process.env.ATLASDB_URL;
 main().then(() => {
@@ -86,6 +87,26 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+
+//Search Route
+app.get("/search", async(req, res) => {
+    const searchQuery = req.query.q;
+    let result;
+
+    if(searchQuery){
+        result = await Listing.find({
+            $or: [
+                { title: { $regex: searchQuery, $options: 'i' } },
+                { categories: { $regex: searchQuery, $options: 'i' } }
+            ]
+        });
+    }
+    else{
+        result = await Listing.find({});
+    }
+
+    res.render("listings/search.ejs", { results: result });
+});
 
 //Custom Error Handler
 app.all("*", (req, res, next) => {

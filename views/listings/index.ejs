@@ -125,5 +125,12 @@
                 }
             }
         });
+
+        document.querySelectorAll(".filter").forEach(filter => {
+            filter.addEventListener("click", function () {
+                const category = this.querySelector("p").innerText;
+                window.location.href = `/search?q=${encodeURIComponent(category)}`;
+            });
+        });
     </script>
 </body>
